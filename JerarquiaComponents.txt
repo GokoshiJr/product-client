@@ -1,0 +1,7 @@
+1 - Jerarquia de componentes
+ProductLayout
+  Header
+  AddButton
+  ListProducts
+    Loading
+    Product
