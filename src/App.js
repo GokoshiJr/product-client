@@ -1,34 +1,50 @@
 import React, {useState} from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import ProductLayout from "./Product/components/ProductLayout";
+import Navbar from "./App/components/Navbar"
 import Box from '@mui/material/Box';
-import { TextField, Container, CssBaseline, Button, Grid } from '@mui/material';
+import { TextField, Container, CssBaseline, Button, Grid, Typography } from '@mui/material';
 import axios from 'axios';
-const baseUrl = process.env.REACT_APP_BASE_URL;
+// const baseUrl = process.env.REACT_APP_BASE_URL;
+// const deployUrl = process.env.DEPLOY_APP_BASE_URL;
 
 function App() {
   return (
     <div className="App">
-      <h1>Welcome to React Router!</h1>
+      <Navbar
+
+      />
       <nav>
         <Link to="/login">Login</Link>
-        <Link to="products">Products</Link>
+        <Link to="/products">Products</Link>
       </nav>
       <Routes>
         <Route path="/products" element={<ProductLayout />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/test" element={<Test />} />
       </Routes>
 
     </div>
   );
 }
 
+function Test() {
+  return (
+    <div>
+      Estas en la ruta test
+    </div>
+  )
+}
+
 function Login() {
 
     const handleSubmit = (data) => {
       console.log(data);
-      axios.post(`${baseUrl}/auth/signin`, data)
-      .then((res) => console.log(res))
+      axios.post(`http://192.168.1.102:5000/login`, data)
+      .then((res) => {
+        console.log(res)
+        // window.location.href = '/test'
+      })
       .catch((err) => console.log(err))
     }
 
@@ -42,15 +58,12 @@ function Login() {
       setFormValues({...formValues, [name]: value});
     }
 
-
-
     const _handleSubmit = (event) => {
       event.preventDefault();
       handleSubmit({...formValues});
     }
 
     return (
-
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -61,7 +74,9 @@ function Login() {
               alignItems: 'center',
             }}
           >
-
+            <Typography variant="h4">
+              Login de Usuarios
+            </Typography>
             <Box
               component="form"
               sx={
@@ -90,11 +105,9 @@ function Login() {
                 label="Password"
                 id="password"
                 type="password"
-                autoFocus
                 value={formValues.password}
                 onChange={handleChange}
               />
-
               <Grid
                 container
                 direction="row"
@@ -108,9 +121,7 @@ function Login() {
                 >
                   Login
                 </Button>
-
               </Grid>
-
             </Box>
           </Box>
         </Container>

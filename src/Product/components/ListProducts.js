@@ -8,9 +8,11 @@ import { Button, CardActionArea, CardActions } from '@mui/material';
 
 function ListProducts(
   {
+    isError,
     isLoading,
     products,
     handleDelete,
+    handleEdit,
     openDeleteModal,
     handleCloseDeleteModal,
   }
@@ -20,8 +22,12 @@ function ListProducts(
     return <Loading />
   }
 
+  if (isError) {
+    return <h2>Ocurrio un error al consultar los productos</h2>
+  }
+
   if (!products.length) {
-    return <h2>You don't have products</h2>
+    return <h2>No posees productos</h2>
   } else {
     return (
       <>
@@ -44,7 +50,7 @@ function ListProducts(
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="small" color="primary">
+              <Button size="small" color="primary" onClick={() => handleEdit(product)}>
                 Edit
               </Button>
               <Button size="small" color="primary" onClick={() => handleDelete(product)}>
